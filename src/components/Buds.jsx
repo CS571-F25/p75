@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Form, Button } from "react-bootstrap";
 import { collection, doc, onSnapshot, updateDoc, getDocs } from "firebase/firestore";
 import { db, auth } from "../firebase";
 
@@ -226,9 +227,13 @@ export default function Buds() {
   };
 
   const renderStars = (rating) => {
-    return [...Array(5)].map((_, i) => (
-      <span key={i} style={{ color: i < rating ? "#ffc107" : "#e4e5e9" }}>★</span>
-    ));
+    return (
+      <div aria-label={`Rating: ${rating} out of 5 stars`}>
+        {[...Array(5)].map((_, i) => (
+          <span key={i} style={{ color: i < rating ? "#ffc107" : "#e4e5e9" }} aria-hidden="true">★</span>
+        ))}
+      </div>
+    );
   };
 
   // Filter out current user from the list
@@ -294,8 +299,9 @@ export default function Buds() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
           <h3>Friends Feed</h3>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <label style={{ fontWeight: "bold" }}>Sort by:</label>
-            <select 
+            <Form.Label htmlFor="feed-sort-select" style={{ fontWeight: "bold", marginBottom: 0 }}>Sort by:</Form.Label>
+            <Form.Select
+              id="feed-sort-select"
               value={sortBy} 
               onChange={(e) => setSortBy(e.target.value)}
               style={{
@@ -303,13 +309,14 @@ export default function Buds() {
                 fontSize: "14px",
                 borderRadius: "5px",
                 border: "1px solid #ccc",
-                cursor: "pointer"
+                cursor: "pointer",
+                width: "8rem"
               }}
             >
               <option value="similarity">Similar to Me</option>
               <option value="highest">Highest Rated</option>
               <option value="lowest">Lowest Rated</option>
-            </select>
+            </Form.Select>
           </div>
         </div>
 
@@ -401,21 +408,14 @@ export default function Buds() {
                       </div>
                     )}
                   </div>
-                  <button 
+                  <Button
+                    size="sm"
+                    variant={currentUserData?.following?.includes(u.id) ? "secondary" : "primary"}
                     onClick={() => handleFollow(u.id)}
                     disabled={currentUserData?.following?.includes(u.id)}
-                    style={{
-                      padding: "5px 15px",
-                      backgroundColor: currentUserData?.following?.includes(u.id) ? "#6c757d" : "#0d6efd",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      cursor: currentUserData?.following?.includes(u.id) ? "not-allowed" : "pointer",
-                      fontSize: "14px"
-                    }}
                   >
                     {currentUserData?.following?.includes(u.id) ? "Following" : "Add Bud"}
-                  </button>
+                  </Button>
                 </div>
               </div>
             );

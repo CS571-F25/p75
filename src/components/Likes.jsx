@@ -71,6 +71,7 @@ export default function Likes({ review }) {
     <button
       onClick={handleLike}
       disabled={processing}
+      aria-label={hasLiked ? `Unlike review (${likeCount} likes)` : `Like review (${likeCount} likes)`}
       style={{
         backgroundColor: "transparent",
         border: "none",
@@ -83,7 +84,7 @@ export default function Likes({ review }) {
         color: hasLiked ? "#dc3545" : "#666"
       }}
     >
-      <span style={{ fontSize: "20px" }}>{hasLiked ? "❤️" : "🤍"}</span>
+      <span style={{ fontSize: "20px" }} aria-hidden="true">{hasLiked ? "❤️" : "🤍"}</span>
       <span>{likeCount}</span>
     </button>
   );

@@ -70,9 +70,13 @@ export default function BudProfile() {
   }, [userId, navigate]);
 
   const renderStars = (rating) => {
-    return [...Array(5)].map((_, i) => (
-      <span key={i} style={{ color: i < rating ? "#ffc107" : "#e4e5e9", fontSize: "20px" }}>★</span>
-    ));
+    return (
+      <div aria-label={`Rating: ${rating} out of 5 stars`}>
+        {[...Array(5)].map((_, i) => (
+          <span key={i} style={{ color: i < rating ? "#ffc107" : "#e4e5e9", fontSize: "20px" }} aria-hidden="true">★</span>
+        ))}
+      </div>
+    );
   };
 
   if (loading) {
@@ -168,9 +172,9 @@ export default function BudProfile() {
             </div>
           </div>
 
-          {/* Flavor Profile */}
+          {/* Taste Preferences */}
           <hr />
-          <h5>Taste Preferences</h5>
+          <h4>Taste Preferences</h4>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginTop: "15px" }}>
             {renderPreferenceBar("Savory", flavorProfile.savory, "#0d6efd")}
             {renderPreferenceBar("Spiciness", flavorProfile.spiciness, "#dc3545")}
@@ -187,7 +191,7 @@ export default function BudProfile() {
           {textureProfile && Object.keys(textureProfile).length > 0 && (
             <>
               <hr />
-              <h5>Texture Preferences</h5>
+              <h4>Texture Preferences</h4>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginTop: "15px" }}>
                 {textureProfile.crunchy && renderPreferenceBar("Crunchy", textureProfile.crunchy, "#ff6b6b")}
                 {textureProfile.creamy && renderPreferenceBar("Creamy", textureProfile.creamy, "#f9ca24")}
@@ -202,7 +206,7 @@ export default function BudProfile() {
           {aromaProfile && Object.keys(aromaProfile).length > 0 && (
             <>
               <hr />
-              <h5>Aroma Preferences</h5>
+              <h4>Aroma Preferences</h4>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginTop: "15px" }}>
                 {aromaProfile.fragrant && renderPreferenceBar("Fragrant", aromaProfile.fragrant, "#00b894")}
                 {aromaProfile.mild && renderPreferenceBar("Mild", aromaProfile.mild, "#74b9ff")}
@@ -217,7 +221,7 @@ export default function BudProfile() {
           {cuisinePreferences.length > 0 && (
             <>
               <hr />
-              <h5>Favorite Cuisines</h5>
+              <h4>Favorite Cuisines</h4>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "15px" }}>
                 {cuisinePreferences.map(cuisine => (
                   <span key={cuisine} style={{
@@ -239,7 +243,7 @@ export default function BudProfile() {
           {environmentPreferences && Object.keys(environmentPreferences).length > 0 && (
             <>
               <hr />
-              <h5>Dining Environment</h5>
+              <h4>Dining Environment</h4>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginTop: "15px" }}>
                 {environmentPreferences.casual && renderPreferenceBar("Casual", environmentPreferences.casual, "#0984e3")}
                 {environmentPreferences.formal && renderPreferenceBar("Formal", environmentPreferences.formal, "#2d3436")}
@@ -254,7 +258,7 @@ export default function BudProfile() {
       </Card>
 
       {/* Reviews Section */}
-      <h3 style={{ marginBottom: "20px" }}>Reviews ({userReviews.length})</h3>
+      <h2 style={{ marginBottom: "20px" }}>Reviews ({userReviews.length})</h2>
       {userReviews.length === 0 ? (
         <Card>
           <Card.Body style={{ textAlign: "center", color: "#666" }}>
@@ -273,7 +277,7 @@ export default function BudProfile() {
                   marginBottom: "10px"
                 }}>
                   <div>
-                    <h5 style={{ marginBottom: "5px" }}>{review.restaurantName}</h5>
+                    <h3 style={{ marginBottom: "5px", fontSize: "1.25rem" }}>{review.restaurantName}</h3>
                     <div>{renderStars(review.rating)}</div>
                   </div>
                   <div style={{ fontSize: "14px", color: "#666" }}>

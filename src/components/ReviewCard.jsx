@@ -74,12 +74,16 @@ export default function ReviewCard({ review }) {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
-        <span key={i} style={{ color: i <= review.rating ? "#ffc107" : "#e4e5e9" }}>
+        <span key={i} style={{ color: i <= review.rating ? "#ffc107" : "#e4e5e9" }} aria-hidden="true">
           ★
         </span>
       );
     }
-    return stars;
+    return (
+      <div aria-label={`Rating: ${review.rating} out of 5 stars`}>
+        {stars}
+      </div>
+    );
   };
 
   // Don't show follow button for own reviews
@@ -91,15 +95,23 @@ export default function ReviewCard({ review }) {
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ flex: 1 }}>
             <Card.Title 
+              as="button"
+              type="button"
               style={{ 
                 fontSize: "1rem", 
                 cursor: "pointer", 
                 color: "#0d6efd",
-                textDecoration: "none"
+                textDecoration: "none",
+                background: "none",
+                border: "none",
+                padding: 0,
+                textAlign: "left",
+                fontWeight: "500"
               }}
               onClick={() => navigate(`/bud-profile/${review.userId}`)}
               onMouseEnter={(e) => e.target.style.textDecoration = "underline"}
               onMouseLeave={(e) => e.target.style.textDecoration = "none"}
+              aria-label={`View ${review.userName}'s profile`}
             >
               {review.userName}
             </Card.Title>

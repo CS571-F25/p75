@@ -334,15 +334,16 @@ export default function RestaurantList({ city }) {
               <p>{selectedRestaurant.location}</p>
               <img
                 src={selectedRestaurant.image || "https://via.placeholder.com/150"}
-                alt={selectedRestaurant.name}
+                alt={`${selectedRestaurant.name} restaurant exterior`}
                 style={{ width: "100%", maxHeight: "400px", objectFit: "cover", marginBottom: "20px" }}
               />
               
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                 <h3>Reviews ({sortedReviews.length})</h3>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <label style={{ fontWeight: "bold" }}>Sort by:</label>
-                  <select 
+                  <Form.Label htmlFor="sort-select" style={{ fontWeight: "bold", marginBottom: 0 }}>Sort by:</Form.Label>
+                  <Form.Select
+                    id="sort-select"
                     value={sortBy} 
                     onChange={(e) => setSortBy(e.target.value)}
                     style={{
@@ -350,13 +351,14 @@ export default function RestaurantList({ city }) {
                       fontSize: "14px",
                       borderRadius: "5px",
                       border: "1px solid #ccc",
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      width: "8rem"
                     }}
                   >
                     <option value="similarity">Similar to Me</option>
                     <option value="highest">Highest Rated</option>
                     <option value="lowest">Lowest Rated</option>
-                  </select>
+                  </Form.Select>
                 </div>
               </div>
 
@@ -390,14 +392,16 @@ export default function RestaurantList({ city }) {
 
               {/* RATING BUTTONS */}
               <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", fontWeight: "bold", marginBottom: "8px" }}>
+                <Form.Label id="rating-label" style={{ display: "block", fontWeight: "bold", marginBottom: "8px" }}>
                   Rating: {newReviewRating} ★
-                </label>
-                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                </Form.Label>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }} role="group" aria-labelledby="rating-label">
                   {[1, 2, 3, 4, 5].map(n => (
                     <button
                       key={n}
+                      type="button"
                       onClick={() => setNewReviewRating(n)}
+                      aria-label={`Rate ${n} star${n > 1 ? 's' : ''}`}
                       style={{
                         padding: "10px 20px",
                         fontSize: "18px",
